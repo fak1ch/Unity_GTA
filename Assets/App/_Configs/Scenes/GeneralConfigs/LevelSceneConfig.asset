@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BodyRotateSpeed: 10
   InputSystemConfig:
-    LookInputError: 0.01
+    SprintInputValue: 0.5
     MouseSensitivity: 300
     JoystickSensitivity: 100
     FlipXAxis: 0

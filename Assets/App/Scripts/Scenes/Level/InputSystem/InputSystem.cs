@@ -93,6 +93,7 @@ namespace App.Scripts.Scenes.MainScene.Inputs
             {
                 SetMoveInput(_moveJoystick.Direction);
                 SetLookInput(_lookJoystick.Direction, _config.JoystickSensitivity);
+                RunKeyHold = MoveInput.sqrMagnitude >= _config.SprintInputValue;
             }
 
             if (Input.GetKeyDown(_config.RunKey))

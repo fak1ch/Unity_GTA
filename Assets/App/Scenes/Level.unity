@@ -51161,6 +51161,11 @@ MonoBehaviour:
   _animator: {fileID: 5866666021747373624}
   _movableComponent: {fileID: 5866666021747373625}
   _healthComponent: {fileID: 5866666021747373629}
+  _config:
+    IsRunKey: IsRun
+    SpeedPercentKey: SpeedPercent
+    EnterCarTriggerKey: EnterCarTrigger
+    ExitCarTriggerKey: ExitCarTrigger
 --- !u!114 &5866666021747373631
 MonoBehaviour:
   m_ObjectHideFlags: 0

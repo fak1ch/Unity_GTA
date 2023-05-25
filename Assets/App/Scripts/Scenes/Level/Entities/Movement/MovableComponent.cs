@@ -7,6 +7,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
     public class MovableComponent : MonoBehaviour
     {
         public Vector2 MoveInput { get; private set; }
+        public bool IsRun { get; private set; }
         public float SpeedPercent => MathUtils.GetPercent(0, _config.RunSpeed, _speed);
         
         [SerializeField] private MovableComponentConfig _config;
@@ -84,6 +85,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             
             _targetSpeed = runKeyHold ? _config.RunSpeed : _config.WalkSpeed;
             _targetSpeed = moveInput == Vector2.zero ? 0 : _targetSpeed;
+            IsRun = runKeyHold;
         }
         
         private void SetVelocity(Vector3 velocity)
