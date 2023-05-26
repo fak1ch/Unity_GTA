@@ -35,12 +35,12 @@ public class AnimationController : MonoBehaviour
             _animator.SetBool(_isRunHash, _movableComponent.IsRun);
         }
 
-        private void PullEnterCarTrigger()
+        public void PullEnterCarTrigger()
         {
             PullAnimationTrigger(_enterCarTriggerHash);
         }
         
-        private void PullExitCarTrigger()
+        public void PullExitCarTrigger()
         {
             PullAnimationTrigger(_exitCarTriggerHash);
         }

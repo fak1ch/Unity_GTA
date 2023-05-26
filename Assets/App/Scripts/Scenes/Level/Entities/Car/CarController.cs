@@ -10,14 +10,25 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
         [SerializeField] private string _interactMessageInCar;
         [SerializeField] private CarMovement _carMovement;
         [SerializeField] private CinemachineVirtualCamera _carVirtualCamera;
+        [SerializeField] private Transform _characterEnterCarPoint;
+        [SerializeField] private Transform _characterContainer;
 
         private Character _driver;
         private bool _isCarBusy => _driver != null;
+        private delegate void PullCarAnimationTrigger();
         
         public void Interact(Character character)
         {
-            Character characterForLock = _isCarBusy ? _driver : character;
-            LockCharacterMovement(characterForLock, !_isCarBusy);
+            character.SetInteractable(_isCarBusy);
+            PullCarAnimationTrigger pullCarAnimationTrigger = _isCarBusy
+                ? character.AnimationController.PullExitCarTrigger
+                : character.AnimationController.PullEnterCarTrigger;
+
+            if (_isCarBusy == false)
+            {
+                TeleportCharacterToEnterCarPoint(character);
+            }
+            pullCarAnimationTrigger();
 
             _driver = _isCarBusy ? null : character;
             _carMovement.SetCanMove(_isCarBusy);
@@ -25,16 +36,16 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
             _carVirtualCamera.gameObject.SetActive(_isCarBusy);
         }
 
+        private void TeleportCharacterToEnterCarPoint(Character character)
+        {
+            character.transform.SetParent(_characterEnterCarPoint);
+            character.transform.localPosition = Vector3.zero;
+            character.transform.localRotation = Quaternion.identity;
+        }
+
         public string GetInteractMessage()
         {
             return _isCarBusy ? _interactMessageInCar : _interactMessageOutOfCar;
-        }
-
-        private void LockCharacterMovement(Character character, bool value)
-        {
-            character.MovableComponent.SetCanMove(!value);
-            character.BodyRotator.SetCanRotate(!value);
-            character.FollowPointRotator.SetCanRotate(!value);
         }
     }
 }

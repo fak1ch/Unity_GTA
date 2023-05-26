@@ -16,12 +16,13 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         private Vector3 _targetPosition;
         private bool _moveToPosition = false;
         private bool _canMove = true;
-        private int _canMoveCount = 0;
         private float _targetSpeed;
         private float _speed;
 
         private void Update()
         {
+            if(_canMove == false) return;
+            
             SmoothSpeed();
         }
 
@@ -68,12 +69,9 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         
         public void SetCanMove(bool value)
         {
-            _canMoveCount += value ? 1 : - 1;
-            _canMoveCount = Mathf.Clamp(_canMoveCount, _canMoveCount, 0);
-            
-            _canMove = _canMoveCount == 0;
-            
-            SetVelocity(Vector2.zero);
+            _canMove = value;
+            _targetSpeed = 0;
+            _speed = 0;
         }
 
         public void SetMoveInput(Vector2 moveInput, bool runKeyHold)
@@ -91,6 +89,11 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         private void SetVelocity(Vector3 velocity)
         {
             _rigidbody.velocity = velocity;
+        }
+
+        public void SetRigidbody(Rigidbody targetRigidbody)
+        {
+            _rigidbody = targetRigidbody;
         }
     }
 }

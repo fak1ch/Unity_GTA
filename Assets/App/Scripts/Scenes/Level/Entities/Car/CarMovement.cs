@@ -22,9 +22,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
             
             float motorTorque = _maxMotorTorque * moveInput.y * _accelerationSpeed;
             float steeringAngle = _maxSteeringAngle * moveInput.x;
-            
-            Debug.Log(motorTorque);
-     
+
             foreach (AxleInfo axleInfo in _axleInfos) 
             {
                 if (axleInfo.Steering) 
