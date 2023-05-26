@@ -13,6 +13,8 @@ namespace App.Scripts.General.PopUpSystemSpace
         public event Action<PopUp> OnPopUpOpen;
         public event Action<PopUp> OnPopUpClose;
 
+        public bool IsOpen => gameObject.activeSelf;
+        
         [SerializeField] private CustomAnimator _customAnimatorShow;
         [SerializeField] private CustomAnimator _customAnimatorHide;
         [SerializeField] private List<CustomButton> _buttons;

@@ -1,5 +1,5 @@
-﻿using System;
-using App.Scripts.Scenes.MainScene.Inputs;
+﻿using App.Scripts.Scenes.Level.UI;
+using App.Scripts.Scenes.MainScene.Entities.Car;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.Interact
@@ -7,26 +7,13 @@ namespace App.Scripts.Scenes.MainScene.Entities.Interact
     public class InteractSystem : MonoBehaviour
     {
         [SerializeField] private LevelConfigScriptableObject _levelConfig;
-        [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private Transform _followPoint;
         [SerializeField] private Transform _rayStartPoint;
+        [SerializeField] private EnterCarButton _enterCarButton;
         [SerializeField] private Character _character;
-        [SerializeField] private InteractView _interactView;
 
         private InteractSystemConfig _config => _levelConfig.InteractSystemConfig;
         private RaycastHit _hitInfo;
-        private IInteractable _lastInteractableObject;
-        private bool _canInteract;
-
-        private void OnEnable()
-        {
-            _inputSystem.OnGetInCarButtonClicked += Interact;
-        }
-
-        private void OnDisable()
-        {
-            _inputSystem.OnGetInCarButtonClicked -= Interact;
-        }
 
         private void Update()
         {
@@ -40,32 +27,21 @@ namespace App.Scripts.Scenes.MainScene.Entities.Interact
                 {
                     for (int i = 0; i < length; i++)
                     {
-                        if (colliders[i].TryGetComponent(out _lastInteractableObject))
+                        if (colliders[i].TryGetComponent(out CarController carController))
                         {
                             float distance = Vector3.Distance(_hitInfo.point, _rayStartPoint.position);
 
-                            _canInteract = distance <= _config.MaxDistance;
-                            
-                            _interactView.SetInteractMessage(_lastInteractableObject.GetInteractMessage());
-                            _interactView.gameObject.SetActive(true);
+                            if (distance <= _config.MaxDistance)
+                            {
+                                _enterCarButton.SetInteractable(true, _character, carController);
+                            }
                             return;
                         }
                     }
                 }
             }
-
-            if (_interactView.gameObject.activeInHierarchy)
-            {
-                _interactView.gameObject.SetActive(false);
-            }
-            _canInteract = false;
-        }
-
-        private void Interact()
-        {
-            if(_canInteract == false) return;
             
-            _lastInteractableObject.Interact(_character);
+            _enterCarButton.SetInteractable(false, null, null);
         }
 
         private void OnDrawGizmos()

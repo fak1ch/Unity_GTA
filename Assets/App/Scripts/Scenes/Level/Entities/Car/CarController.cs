@@ -1,51 +1,75 @@
-﻿using App.Scripts.Scenes.MainScene.Entities.Interact;
+﻿using System;
+using App.Scripts.Scenes.MainScene.Inputs;
 using Cinemachine;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.Car
 {
-    public class CarController : MonoBehaviour, IInteractable
+    public class CarController : MonoBehaviour
     {
-        [SerializeField] private string _interactMessageOutOfCar;
-        [SerializeField] private string _interactMessageInCar;
         [SerializeField] private CarMovement _carMovement;
+        [SerializeField] private GameObject _carUI;
+        [SerializeField] private CarInputSystem _carInputSystem;
         [SerializeField] private CinemachineVirtualCamera _carVirtualCamera;
         [SerializeField] private Transform _characterEnterCarPoint;
-        [SerializeField] private Transform _characterContainer;
-
-        private Character _driver;
-        private bool _isCarBusy => _driver != null;
-        private delegate void PullCarAnimationTrigger();
         
-        public void Interact(Character character)
+        private Character _driver;
+
+        private void OnEnable()
         {
-            character.SetInteractable(_isCarBusy);
-            PullCarAnimationTrigger pullCarAnimationTrigger = _isCarBusy
-                ? character.AnimationController.PullExitCarTrigger
-                : character.AnimationController.PullEnterCarTrigger;
+            _carInputSystem.OnExitCarButtonClicked += ExitCharacterFromCar;
+        }
 
-            if (_isCarBusy == false)
-            {
-                TeleportCharacterToEnterCarPoint(character);
-            }
-            pullCarAnimationTrigger();
+        private void OnDisable()
+        {
+            _carInputSystem.OnExitCarButtonClicked -= ExitCharacterFromCar;
+        }
 
-            _driver = _isCarBusy ? null : character;
-            _carMovement.SetCanMove(_isCarBusy);
+        public void EnterCharacterToCar(Character character)
+        {
+            _driver = character;
+            character.CharacterUI.SetActive(false);
+
+            _driver.SetInteractable(false);
+            TeleportCharacterToEnterCarPoint();
+            _driver.AnimationController.OnAnimationEnd += EnterCarEndAnimationCallback;
+            _driver.AnimationController.PullEnterCarTrigger();
+        }
+        
+        private void EnterCarEndAnimationCallback()
+        {
+            _driver.AnimationController.OnAnimationEnd -= EnterCarEndAnimationCallback;
+            _carUI.SetActive(true);
+            _carMovement.SetCanMove(true);
+            _carVirtualCamera.gameObject.SetActive(true);
+        }
+         
+        private void ExitCharacterFromCar()
+        {
+            if(_driver == null) return;
             
-            _carVirtualCamera.gameObject.SetActive(_isCarBusy);
+            _carUI.SetActive(false);
+            _carMovement.SetCanMove(false);
+            _carVirtualCamera.gameObject.SetActive(false);
+            _driver.AnimationController.OnAnimationEnd += ExitCarEndAnimationCallback;
+            _driver.AnimationController.PullExitCarTrigger();
         }
 
-        private void TeleportCharacterToEnterCarPoint(Character character)
+        private void ExitCarEndAnimationCallback()
         {
-            character.transform.SetParent(_characterEnterCarPoint);
-            character.transform.localPosition = Vector3.zero;
-            character.transform.localRotation = Quaternion.identity;
+            _driver.AnimationController.OnAnimationEnd -= ExitCarEndAnimationCallback;
+            _driver.CharacterUI.SetActive(true);
+            _driver.SetInteractable(true);
+            _driver.transform.SetParent(null);
+
+            _driver = null;
         }
 
-        public string GetInteractMessage()
+        private void TeleportCharacterToEnterCarPoint()
         {
-            return _isCarBusy ? _interactMessageInCar : _interactMessageOutOfCar;
+            _driver.transform.SetParent(_characterEnterCarPoint);
+            _driver.transform.localPosition = Vector3.zero;
+            _driver.transform.localRotation = Quaternion.identity;
         }
     }
 }

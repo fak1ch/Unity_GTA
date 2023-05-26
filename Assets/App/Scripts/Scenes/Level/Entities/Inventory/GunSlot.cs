@@ -28,14 +28,5 @@ namespace App.Scripts.Scenes.MainScene.Entities
             
             _selectedGun.Shoot();
         }
-
-        public float Reload()
-        {
-            if (_selectedGun == null) return 0;
-            
-            _selectedGun.Reload();
-            
-            return _selectedGun.ReloadTime;
-        }
     }
 }

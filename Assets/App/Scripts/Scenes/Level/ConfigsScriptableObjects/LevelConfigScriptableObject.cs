@@ -1,4 +1,5 @@
-﻿using App.Scripts.Scenes.MainScene.Entities.Interact;
+﻿using App.Scripts.Scenes.Level.UI;
+using App.Scripts.Scenes.MainScene.Entities.Interact;
 using App.Scripts.Scenes.MainScene.Inputs;
 using UnityEngine;
 
@@ -11,5 +12,6 @@ namespace App.Scripts.Scenes
 
         public InputSystemConfig InputSystemConfig;
         public InteractSystemConfig InteractSystemConfig;
+        public EnterCarButtonConfig EnterCarButtonConfig;
     }
 }

@@ -16,7 +16,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private BulletConfig _config;
-        [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Rigidbody _rigidbody;
 
         private CustomTimer _lifetimeTimer;
         private ObjectPool<Bullet> _bulletPool;
@@ -27,21 +27,18 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _lifetimeTimer.OnEnd += ReturnBulletToPool;
         }
 
-        public void Initialize(ObjectPool<Bullet> bulletPool, Vector3 eulerAngles, Vector3 startPosition)
+        public void Initialize(ObjectPool<Bullet> bulletPool)
         {
             _bulletPool = bulletPool;
             _lifetimeTimer.StartTimer(_config.Lifetime);
             
-            transform.eulerAngles = eulerAngles;
-            transform.position = startPosition;
+            transform.localEulerAngles = Vector3.zero;
+            transform.localPosition = Vector3.zero;
             transform.SetParent(null);
             
             gameObject.SetActive(true);
 
-            Vector2 right = Vector2.right;
-            Vector2 direction = (Quaternion.Euler(eulerAngles) * right);
-            
-            _rigidbody2D.velocity = direction.normalized * _config.MoveSpeed;
+            _rigidbody.velocity = transform.forward * _config.MoveSpeed;
         }
 
         private void Update()

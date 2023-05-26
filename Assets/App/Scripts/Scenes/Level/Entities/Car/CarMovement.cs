@@ -6,7 +6,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
 {
     public class CarMovement : MonoBehaviour
     {
-        [SerializeField] private InputSystem _inputSystem;
+        [SerializeField] private CarInputSystem _inputSystem;
         [SerializeField] private List<AxleInfo> _axleInfos;
         [SerializeField] private float _maxMotorTorque;
         [SerializeField] private float _maxSteeringAngle;

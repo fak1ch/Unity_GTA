@@ -85,25 +85,25 @@ namespace App.Scripts.Scenes.MainScene.Inputs
                 {
                     SetLookInput(mouseInput, _config.MouseSensitivity);
                 }
+                
+                if (Input.GetKeyDown(_config.RunKey))
+                {
+                    RunKeyHold = true;
+                }
+            
+                if (Input.GetKeyUp(_config.RunKey))
+                {
+                    RunKeyHold = false;
+                }
+                
+                Cursor.visible = !desktopInputSelected;
             #endif
-
-            Cursor.visible = !desktopInputSelected;
-
+            
             if (desktopInputSelected == false)
             {
                 SetMoveInput(_moveJoystick.Direction);
                 SetLookInput(_lookJoystick.Direction, _config.JoystickSensitivity);
                 RunKeyHold = MoveInput.sqrMagnitude >= _config.SprintInputValue;
-            }
-
-            if (Input.GetKeyDown(_config.RunKey))
-            {
-                RunKeyHold = true;
-            }
-            
-            if (Input.GetKeyUp(_config.RunKey))
-            {
-                RunKeyHold = false;
             }
         }
 

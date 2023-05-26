@@ -1,27 +1,13 @@
-﻿using System;
-using App.Scripts.General.ObjectPool;
+﻿using App.Scripts.General.ObjectPool;
 using App.Scripts.Scenes.General;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.Bullets
 {
-    [Serializable]
-    public class GunConfig
-    {
-        public float ShootingSpeed = 1;
-        public float ReloadTime = 1;
-        public int AmmoSize = 8;
-        public Transform BulletStartPoint;
-        public PoolData<Bullet> BulletPoolData;
-    }
-    
     public class Gun : Item, IUsable
     {
-        public event Action<float> OnReload;
         public float ReloadTime => _gunConfig.ReloadTime;
 
-        protected ItemCell _itemCell;
-        
         [SerializeField] private GunConfig _gunConfig;
         
         private CustomTimer _shootingTimer;
@@ -58,7 +44,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _shootingTimer.StartTimer(_gunConfig.ShootingSpeed);
             
             Bullet bullet = _bulletPool.GetElement();
-            bullet.Initialize(_bulletPool, transform.eulerAngles, _gunConfig.BulletStartPoint.position);
+            bullet.Initialize(_bulletPool);
             
             _ammoCount--;
         }
@@ -69,8 +55,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _reloadTimer.StartTimer(_gunConfig.ReloadTime);
             
             AddBulletsToAmmo(_gunConfig.AmmoSize - _ammoCount);
-
-            OnReload?.Invoke(_gunConfig.ReloadTime);
         }
 
         protected virtual void AddBulletsToAmmo(int bullets)
@@ -80,16 +64,8 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
 
         public void Use(ItemCell itemCell)
         {
-            _itemCell = itemCell;
             itemCell.InventoryPopUp.GunSlot.SelectGun(this);
             itemCell.InventoryPopUp.HidePopUp();
-
-            if (transform.localScale.x < 0)
-            {
-                Vector3 localScale = transform.localScale;
-                localScale.x *= -1;
-                transform.localScale = localScale;
-            }
         }
     }
 }
