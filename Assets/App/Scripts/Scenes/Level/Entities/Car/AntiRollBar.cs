@@ -10,8 +10,12 @@ namespace App.Scripts.Scenes.MainScene.Entities
         [SerializeField] private Rigidbody _carRigidbody;
         [SerializeField] private float _antiRollValue = 5000.0f;
 
+        private bool _active = true;
+        
         private void FixedUpdate()
         {
+            if(_active == false) return;
+            
             float travelL = 1.0f;
             float travelR = 1.0f;
 
@@ -42,6 +46,11 @@ namespace App.Scripts.Scenes.MainScene.Entities
                 _carRigidbody.AddForceAtPosition (_rightWheel.transform.up * antiRollForce,
                     _rightWheel.transform.position);
             }
+        }
+
+        public void SetActive(bool value)
+        {
+            
         }
     }
 }

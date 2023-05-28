@@ -12,8 +12,9 @@ namespace App.Scripts.Scenes.MainScene.Entities
         
         [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private MovableComponent _movableComponent;
-        [SerializeField] private RotatorByMoveInput _bodyRotatorByMoveInput;
+        [SerializeField] private BodyRotator bodyBodyRotator;
         [SerializeField] private TransformRotatorByInput _followPointRotator;
+        [SerializeField] private TransformRotatorByInput _bodyRotatorByLook;
         [SerializeField] private AnimationController _animationController;
         [SerializeField] private RigidbodyActivator _rigidbodyActivator;
         [SerializeField] private Collider _collider;
@@ -32,7 +33,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
         public void SetInteractable(bool value)
         {
             _movableComponent.SetCanMove(value);
-            _bodyRotatorByMoveInput.SetCanRotate(value);
+            bodyBodyRotator.SetCanRotate(value);
             _followPointRotator.SetCanRotate(value);
             _rigidbodyActivator.SetActiveRigidbody(value);
             _collider.enabled = value;

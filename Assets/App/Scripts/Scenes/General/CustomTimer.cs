@@ -31,6 +31,8 @@ namespace App.Scripts.Scenes.General
 
         public void StartTimer(float time)
         {
+            if(time <= 0) return;
+            
             _time = time;
             _timeTemp = _time;
             

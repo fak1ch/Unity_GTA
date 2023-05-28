@@ -13,13 +13,13 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         public int Damage;
     }
     
-    public class Bullet : MonoBehaviour
+    public class FirearmsBullet : BaseBullet
     {
         [SerializeField] private BulletConfig _config;
         [SerializeField] private Rigidbody _rigidbody;
 
         private CustomTimer _lifetimeTimer;
-        private ObjectPool<Bullet> _bulletPool;
+        private ObjectPool<BaseBullet> _bulletPool;
 
         private void Awake()
         {
@@ -27,7 +27,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _lifetimeTimer.OnEnd += ReturnBulletToPool;
         }
 
-        public void Initialize(ObjectPool<Bullet> bulletPool)
+        public void Initialize(ObjectPool<BaseBullet> bulletPool)
         {
             _bulletPool = bulletPool;
             _lifetimeTimer.StartTimer(_config.Lifetime);

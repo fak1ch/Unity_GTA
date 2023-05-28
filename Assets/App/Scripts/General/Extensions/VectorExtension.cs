@@ -18,5 +18,10 @@ namespace App.Scripts.Scenes.General.Extensions
         {
             return Quaternion.LookRotation(vector).eulerAngles;
         }
+        
+        public static Vector3 Multiply(this Vector3 left, Vector3 right)
+        {
+            return new Vector3(right.x * left.x, right.y * left.y, right.z * left.z);
+        }
     }
 }

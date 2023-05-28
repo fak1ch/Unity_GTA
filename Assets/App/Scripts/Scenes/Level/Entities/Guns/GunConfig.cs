@@ -9,6 +9,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         public float ShootingSpeed = 1;
         public float ReloadTime = 1;
         public int AmmoSize = 8;
-        public PoolData<Bullet> BulletPoolData;
+        public PoolData<BaseBullet> BulletPoolData;
     }
 }

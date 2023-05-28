@@ -8,6 +8,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
     {
         [SerializeField] private CarInputSystem _inputSystem;
         [SerializeField] private List<AxleInfo> _axleInfos;
+        [SerializeField] private List<AntiRollBar> _antiRollBars;
         [SerializeField] private float _maxMotorTorque;
         [SerializeField] private float _maxSteeringAngle;
         [SerializeField] private float _accelerationSpeed = 3;
@@ -41,6 +42,11 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
         public void SetCanMove(bool value)
         {
             _canMove = value;
+
+            foreach (var antiRollBar in _antiRollBars)
+            {
+                antiRollBar.SetActive(value);
+            }
         }
     }
 }

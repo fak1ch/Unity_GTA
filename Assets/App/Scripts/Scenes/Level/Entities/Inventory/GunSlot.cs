@@ -5,6 +5,8 @@ namespace App.Scripts.Scenes.MainScene.Entities
 {
     public class GunSlot : MonoBehaviour
     {
+        public Gun SelectedGun => _selectedGun;
+        
         [SerializeField] private Gun _selectedGun;
         [SerializeField] private Transform _gunPoint;
 

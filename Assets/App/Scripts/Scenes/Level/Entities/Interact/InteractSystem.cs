@@ -6,6 +6,8 @@ namespace App.Scripts.Scenes.MainScene.Entities.Interact
 {
     public class InteractSystem : MonoBehaviour
     {
+        public Vector3 LastHitPosition => _hitInfo.point;
+        
         [SerializeField] private LevelConfigScriptableObject _levelConfig;
         [SerializeField] private Transform _followPoint;
         [SerializeField] private Transform _rayStartPoint;
