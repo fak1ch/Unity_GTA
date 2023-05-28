@@ -23,7 +23,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
                 Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
                 _target.rotation = Quaternion.RotateTowards(_target.rotation, toRotation,
                     _rotationSpeed * Time.deltaTime);
-            } 
+            }
         }
 
         public void SetCanRotate(bool value)

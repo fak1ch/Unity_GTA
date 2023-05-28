@@ -10,6 +10,16 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private MovableComponent _movableComponent;
 
+        private void OnEnable()
+        {
+            _inputSystem.OnJumpButtonClicked += _movableComponent.Jump;
+        }
+
+        private void OnDisable()
+        {
+            _inputSystem.OnJumpButtonClicked -= _movableComponent.Jump;
+        }
+
         private void Update()
         {
             _movableComponent.SetMoveInput(_inputSystem.MoveInput, _inputSystem.RunKeyHold);

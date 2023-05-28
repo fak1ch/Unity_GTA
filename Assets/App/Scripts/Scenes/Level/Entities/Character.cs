@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using App.Scripts.General.LoadScene;
+﻿using App.Scripts.General.LoadScene;
 using App.Scripts.Scenes.MainScene.Entities.MovementSystem;
 using App.Scripts.Scenes.MainScene.Entities.Player;
 using UnityEngine;
@@ -10,15 +7,11 @@ namespace App.Scripts.Scenes.MainScene.Entities
 {
     public class Character : MonoBehaviour
     {
-        public event Action OnStartOpenDoor;
-        public event Action OnStartCloseDoor;
-
         public AnimationController AnimationController => _animationController;
         public GameObject CharacterUI => _characterUI;
         
         [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private MovableComponent _movableComponent;
-        [SerializeField] private TransformRotatorByInput _bodyRotatorByLookInput;
         [SerializeField] private RotatorByMoveInput _bodyRotatorByMoveInput;
         [SerializeField] private TransformRotatorByInput _followPointRotator;
         [SerializeField] private AnimationController _animationController;
@@ -39,21 +32,10 @@ namespace App.Scripts.Scenes.MainScene.Entities
         public void SetInteractable(bool value)
         {
             _movableComponent.SetCanMove(value);
-            _bodyRotatorByLookInput.SetCanRotate(value);
             _bodyRotatorByMoveInput.SetCanRotate(value);
             _followPointRotator.SetCanRotate(value);
             _rigidbodyActivator.SetActiveRigidbody(value);
             _collider.enabled = value;
-        }
-
-        public void SendStartOpenDoorEvent()
-        {
-            OnStartOpenDoor?.Invoke();
-        }
-
-        public void SendStartCloseDoorEvent()
-        {
-            OnStartCloseDoor?.Invoke();
         }
     }
 }

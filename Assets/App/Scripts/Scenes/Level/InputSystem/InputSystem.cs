@@ -90,6 +90,11 @@ namespace App.Scripts.Scenes.MainScene.Inputs
                     RunKeyHold = false;
                 }
                 
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SendJumpButtonClickedEvent();
+                }
+                
                 Cursor.visible = !desktopInputSelected;
             #endif
             

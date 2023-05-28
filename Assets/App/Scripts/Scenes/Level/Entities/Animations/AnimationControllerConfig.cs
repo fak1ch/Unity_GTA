@@ -7,8 +7,11 @@ namespace App.Scripts.Scenes.MainScene.Entities
     {
         public string IsRunKey = "IsRun";
         public string SpeedPercentKey = "SpeedPercent";
+        public string WalkSpeedPercentKey = "WalkSpeedPercent";
         public string EnterCarTriggerKey = "EnterCarTrigger";
         public string ExitCarTriggerKey = "ExitCarTrigger";
         public string IsTakeAimKey = "IsTakeAim";
+        public string IsGroundKey = "IsGround";
+        public string JumpTriggerKey = "JumpTrigger";
     }
 }

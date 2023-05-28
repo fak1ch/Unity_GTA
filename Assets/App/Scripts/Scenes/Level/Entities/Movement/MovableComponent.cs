@@ -11,13 +11,15 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         public Vector3 MoveDirection { get; private set; }
         public bool IsRun { get; private set; }
         public float SpeedPercent => MathUtils.GetPercent(0, _config.RunSpeed, _speed);
+        public float WalkSpeedPercent => MathUtils.GetPercent(0f, _config.WalkSpeed,
+            Mathf.Clamp(_speed, _config.WalkSpeed * 0.5f, _config.WalkSpeed));
         
         [SerializeField] private MovableComponentConfig _config;
         [SerializeField] private CinemachineVirtualCamera _3ndPersonCamera;
+        [SerializeField] private AnimationController _animationController;
         [SerializeField] private Rigidbody _rigidbody;
-
-        private Vector3 _targetPosition;
-        private bool _moveToPosition = false;
+        [SerializeField] private GroundChecker _groundChecker;
+        
         private bool _canMove = true;
         private bool _canRun = true;
         private float _targetSpeed;
@@ -38,18 +40,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         private void FixedUpdate()
         {
             if(_canMove == false) return;
-            
-            if (_moveToPosition)
-            {
-                MoveInput = (_targetPosition - transform.position).normalized;
-                
-                float sqrDistance = Vector2.SqrMagnitude(_targetPosition - transform.position);
-                if (sqrDistance <= 0.01f)
-                {
-                    _moveToPosition = false;
-                }
-            }
-            
+
             Move(MoveInput);
         }
 
@@ -70,12 +61,14 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             SetVelocity(moveDirection);
         }
 
-        public void MoveToPosition(Vector3 position)
+        public void Jump()
         {
-            _moveToPosition = true;
-            _targetPosition = position;
+            if(_groundChecker.IsGround == false) return;
+            
+            _rigidbody.AddForce(new Vector3(0,1,0) * _config.JumpForce);
+            _animationController.PullJumpTrigger();
         }
-        
+
         public void SetCanMove(bool value)
         {
             _canMove = value;
