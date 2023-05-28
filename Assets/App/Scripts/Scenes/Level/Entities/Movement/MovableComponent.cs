@@ -1,5 +1,6 @@
 using System;
 using App.Scripts.General.Utils;
+using Cinemachine;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
@@ -7,15 +8,18 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
     public class MovableComponent : MonoBehaviour
     {
         public Vector2 MoveInput { get; private set; }
+        public Vector3 MoveDirection { get; private set; }
         public bool IsRun { get; private set; }
         public float SpeedPercent => MathUtils.GetPercent(0, _config.RunSpeed, _speed);
         
         [SerializeField] private MovableComponentConfig _config;
+        [SerializeField] private CinemachineVirtualCamera _3ndPersonCamera;
         [SerializeField] private Rigidbody _rigidbody;
 
         private Vector3 _targetPosition;
         private bool _moveToPosition = false;
         private bool _canMove = true;
+        private bool _canRun = true;
         private float _targetSpeed;
         private float _speed;
 
@@ -51,7 +55,12 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
 
         private void Move(Vector2 moveInput)
         {
-            Vector3 moveDirection = (transform.forward * moveInput.y) + (transform.right * moveInput.x);
+            Vector3 forward = (transform.position - _3ndPersonCamera.transform.position).normalized;
+            forward.y = 0;
+            Vector3 right = Vector3.Cross(Vector3.up, forward);
+
+            Vector3 moveDirection = (forward * moveInput.y) + (right * moveInput.x);
+            MoveDirection = moveDirection.normalized;
             
             moveDirection *= Time.deltaTime * _speed;
             moveDirection = _canMove ? moveDirection : Vector2.zero;
@@ -74,13 +83,19 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             _speed = 0;
         }
 
+        public void SetCanRun(bool value)
+        {
+            _canRun = value;
+        }
+
         public void SetMoveInput(Vector2 moveInput, bool runKeyHold)
         {
             if (moveInput != Vector2.zero)
             {
                 MoveInput = moveInput;
             }
-            
+
+            runKeyHold = _canRun && runKeyHold;
             _targetSpeed = runKeyHold ? _config.RunSpeed : _config.WalkSpeed;
             _targetSpeed = moveInput == Vector2.zero ? 0 : _targetSpeed;
             IsRun = runKeyHold;

@@ -6,9 +6,8 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
 {
     public class TransformRotatorByInput : MonoBehaviour
     {
+        [SerializeField] protected InputSystem _inputSystem;
         [SerializeField] private Transform _target;
-        [SerializeField] private InputSystem _inputSystem;
-        [SerializeField] private UpdateTypes _updateType;
         [SerializeField] private float _maxXDegree;
         [SerializeField] private float _minXDegree;
         [SerializeField] private bool _rotateByX;
@@ -16,9 +15,10 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         [SerializeField] private float _damping;
         [SerializeField] private float _rotationSpeed;
 
-        private Vector2 _lookInput;
+        private Vector2 _input;
         private float _targetXDegree;
         private float _targetYDegree;
+        private float _targetZDegree;
 
         private bool _canRotate = true;
 
@@ -26,35 +26,22 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         {
             _targetXDegree = _target.eulerAngles.x;
             _targetYDegree = _target.eulerAngles.y;
+            _targetZDegree = _target.eulerAngles.z;
         }
 
         private void Update()
         {
-            _lookInput = _inputSystem.LookInput;
+            if(_canRotate == false) return;
+            
+            _input = GetInput();
 
-            _targetXDegree += _rotationSpeed * Time.deltaTime * _lookInput.y;
-            _targetYDegree += _rotationSpeed * Time.deltaTime * _lookInput.x;
-
-            if (_updateType == UpdateTypes.Update)
-            {
-                RotateTransform();
-            }
+            _targetXDegree += _rotationSpeed * Time.deltaTime * _input.y;
+            _targetYDegree += _rotationSpeed * Time.deltaTime * _input.x;
         }
 
         private void FixedUpdate()
         {
-            if (_updateType == UpdateTypes.FixedUpdate)
-            {
-                RotateTransform();
-            }
-        }
-
-        private void LateUpdate()
-        {
-            if (_updateType == UpdateTypes.LateUpdate)
-            {
-                RotateTransform();
-            }
+            RotateTransform();
         }
 
         private void RotateTransform()
@@ -66,10 +53,15 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
 
             targetXDegree = Mathf.Clamp(targetXDegree, _minXDegree, _maxXDegree);
             
-            Quaternion desiredRotQuaternion = Quaternion.Euler(targetXDegree, targetYDegree, _target.eulerAngles.z);
+            Quaternion desiredRotQuaternion = Quaternion.Euler(targetXDegree, targetYDegree, _targetZDegree);
             _target.rotation = Quaternion.Lerp(_target.rotation, desiredRotQuaternion, Time.deltaTime * _damping);
         }
 
+        protected virtual Vector2 GetInput()
+        {
+            return _inputSystem.LookInput;
+        }
+        
         public void SetCanRotate(bool value)
         {
             _canRotate = value;

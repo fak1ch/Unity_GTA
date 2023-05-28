@@ -7,8 +7,8 @@ namespace App.Scripts.Scenes.MainScene.Inputs
     public class InputSystem : MonoBehaviour
     {
         public event Action OnJumpButtonClicked;
-        public event Action OnAttackButtonClicked;
-        public event Action OnSelectGunButtonClicked;
+        public event Action OnTakeAimButtonClicked;
+        public event Action OnFootAttackButtonClicked;
         public event Action OnGetInCarButtonClicked;
 
         public Vector2 MoveInput { get; private set; }
@@ -17,8 +17,8 @@ namespace App.Scripts.Scenes.MainScene.Inputs
         public bool ShootButtonHold { get; private set; }
 
         [SerializeField] private CustomButton _jumpButton;
-        [SerializeField] private CustomButton _attackButton;
-        [SerializeField] private CustomButton _selectGunButton;
+        [SerializeField] private CustomButton _takeAimButton;
+        [SerializeField] private CustomButton _footAttackButton;
         [SerializeField] private CustomButton _getInCarButton;
         [SerializeField] private CustomButton _shootButton;
         [SerializeField] private Joystick _moveJoystick;
@@ -26,16 +26,15 @@ namespace App.Scripts.Scenes.MainScene.Inputs
         [SerializeField] private LevelConfigScriptableObject _levelConfig;
 
         private InputSystemConfig _config => _levelConfig.InputSystemConfig;
-        private Vector2 _lastFrameMousePosition;
-        
+
         #region Events
 
         private void OnEnable()
         {
             _jumpButton.OnClickOccurred.AddListener(SendJumpButtonClickedEvent);
-            _attackButton.OnClickOccurred.AddListener(SendAttackButtonClickedEvent);
-            _selectGunButton.OnClickOccurred.AddListener(SendSelectGunButtonClickedEvent);
+            _footAttackButton.OnClickOccurred.AddListener(SendFootAttackButtonClickedEvent);
             _getInCarButton.OnClickOccurred.AddListener(SendGetInCarButtonClickedEvent);
+            _takeAimButton.OnClickOccurred.AddListener(SendTakeAimButtonClickedEvent);
   
             _shootButton.OnMouseDown.AddListener(() =>
             {
@@ -51,17 +50,12 @@ namespace App.Scripts.Scenes.MainScene.Inputs
         private void OnDisable()
         {
             _jumpButton.OnClickOccurred.RemoveListener(SendJumpButtonClickedEvent);
-            _attackButton.OnClickOccurred.RemoveListener(SendAttackButtonClickedEvent);
-            _selectGunButton.OnClickOccurred.RemoveListener(SendSelectGunButtonClickedEvent);
+            _footAttackButton.OnClickOccurred.RemoveListener(SendFootAttackButtonClickedEvent);
             _getInCarButton.OnClickOccurred.RemoveListener(SendGetInCarButtonClickedEvent);
+            _takeAimButton.OnClickOccurred.RemoveListener(SendTakeAimButtonClickedEvent);
         }
 
         #endregion
-
-        private void Start()
-        {
-            _lastFrameMousePosition = Input.mousePosition;
-        }
 
         private void Update()
         {
@@ -128,19 +122,19 @@ namespace App.Scripts.Scenes.MainScene.Inputs
             OnGetInCarButtonClicked?.Invoke();
         }
 
-        private void SendSelectGunButtonClickedEvent()
+        private void SendFootAttackButtonClickedEvent()
         {
-            OnSelectGunButtonClicked?.Invoke();
-        }
-
-        private void SendAttackButtonClickedEvent()
-        {
-            OnAttackButtonClicked?.Invoke();
+            OnFootAttackButtonClicked?.Invoke();
         }
 
         private void SendJumpButtonClickedEvent()
         {
             OnJumpButtonClicked?.Invoke();
+        }
+        
+        private void SendTakeAimButtonClickedEvent()
+        {
+            OnTakeAimButtonClicked?.Invoke();
         }
     }
 }

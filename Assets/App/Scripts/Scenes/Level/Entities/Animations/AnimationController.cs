@@ -13,13 +13,13 @@ public class AnimationController : MonoBehaviour
         [SerializeField] private Animator _animator;
         
         [SerializeField] private MovableComponent _movableComponent;
-        [SerializeField] private HealthComponent _healthComponent;
         [SerializeField] private AnimationControllerConfig _config;
 
         private int _isRunHash;
         private int _speedPercentHash;
         private int _enterCarTriggerHash;
         private int _exitCarTriggerHash;
+        private int _isTakeAimHash;
 
         private void Start()
         {
@@ -27,6 +27,7 @@ public class AnimationController : MonoBehaviour
             _enterCarTriggerHash = Animator.StringToHash(_config.EnterCarTriggerKey);
             _exitCarTriggerHash = Animator.StringToHash(_config.ExitCarTriggerKey);
             _isRunHash = Animator.StringToHash(_config.IsRunKey);
+            _isTakeAimHash = Animator.StringToHash(_config.IsTakeAimKey);
         }
 
         private void Update()
@@ -35,6 +36,11 @@ public class AnimationController : MonoBehaviour
             _animator.SetBool(_isRunHash, _movableComponent.IsRun);
         }
 
+        public void SetIsTakeAim(bool value)
+        {
+            _animator.SetBool(_isTakeAimHash, value);
+        }
+        
         public void PullEnterCarTrigger()
         {
             PullAnimationTrigger(_enterCarTriggerHash);

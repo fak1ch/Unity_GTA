@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using App.Scripts.General.PopUpSystemSpace;
+﻿using App.Scripts.General.PopUpSystemSpace;
 using App.Scripts.Scenes.Level.Configs.GunsConfig;
 using App.Scripts.Scenes.MainScene.Entities.Bullets;
-using App.Scripts.Scenes.MainScene.Inputs;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities
