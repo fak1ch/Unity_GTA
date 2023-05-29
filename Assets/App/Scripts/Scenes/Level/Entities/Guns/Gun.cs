@@ -1,15 +1,20 @@
 ﻿using System;
 using App.Scripts.General.ObjectPool;
 using App.Scripts.Scenes.General;
+using App.Scripts.Scenes.MainScene.Map;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.Bullets
 {
     public class Gun : Item, IUsable
     {
+        public event Action OnShoot;
+        
         public float ReloadTime => _gunConfig.ReloadTime;
+        public float ShootingSpeed => _gunConfig.ShootingSpeed;
 
         [SerializeField] private GunConfig _gunConfig;
+        [SerializeField] private ParticleEffect _muzzleEffect;
         
         private CustomTimer _shootingTimer;
         private CustomTimer _reloadTimer;
@@ -24,8 +29,12 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         {
             _shootingTimer = new CustomTimer();
             _reloadTimer = new CustomTimer();
-            _bulletPool = new ObjectPool<BaseBullet>(_gunConfig.BulletPoolData);
-            
+
+            if (_gunConfig.BulletPoolData.prefab != null)
+            {
+                _bulletPool = new ObjectPool<BaseBullet>(_gunConfig.BulletPoolData);
+            }
+
             _ammoCount = _gunConfig.AmmoSize;
         }
 
@@ -50,6 +59,8 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _shootingTimer.StartTimer(_gunConfig.ShootingSpeed);
 
             SpawnBullet();
+            _muzzleEffect!?.Play();
+            OnShoot?.Invoke();
             
             _ammoCount--;
         }
@@ -57,7 +68,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         protected virtual void SpawnBullet()
         {
             FirearmsBullet firearmsBullet = (FirearmsBullet)_bulletPool.GetElement();
-            firearmsBullet.Initialize(_bulletPool);
+            firearmsBullet.Initialize(_bulletPool, _character);
         }
 
         private void Reload()

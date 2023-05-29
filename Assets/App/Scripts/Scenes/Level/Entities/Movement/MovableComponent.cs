@@ -7,7 +7,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
 {
     public class MovableComponent : MonoBehaviour
     {
-        public Vector2 MoveInput { get; private set; }
+        public Vector3 MoveInput { get; private set; }
         public Vector3 MoveDirection { get; private set; }
         public bool IsRun { get; private set; }
         public float SpeedPercent => MathUtils.GetPercent(0, _config.RunSpeed, _speed);
@@ -15,7 +15,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             Mathf.Clamp(_speed, _config.WalkSpeed * 0.5f, _config.WalkSpeed));
         
         [SerializeField] private MovableComponentConfig _config;
-        [SerializeField] private CinemachineVirtualCamera _3ndPersonCamera;
         [SerializeField] private AnimationController _animationController;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private GroundChecker _groundChecker;
@@ -44,21 +43,16 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             Move(MoveInput);
         }
 
-        private void Move(Vector2 moveInput)
+        private void Move(Vector3 moveInput)
         {
-            Vector3 forward = (transform.position - _3ndPersonCamera.transform.position).normalized;
-            forward.y = 0;
-            Vector3 right = Vector3.Cross(Vector3.up, forward);
-
-            Vector3 moveDirection = (forward * moveInput.y) + (right * moveInput.x);
-            MoveDirection = moveDirection.normalized;
+            MoveDirection = moveInput;
             
-            moveDirection *= Time.deltaTime * _speed;
-            moveDirection = _canMove ? moveDirection : Vector2.zero;
+            Vector3 newVelocity = Time.deltaTime * _speed * moveInput;
+            newVelocity = _canMove ? newVelocity : Vector3.zero;
 
-            moveDirection.y = _rigidbody.velocity.y;
+            newVelocity.y = _rigidbody.velocity.y;
 
-            SetVelocity(moveDirection);
+            SetVelocity(newVelocity);
         }
 
         public void Jump()
@@ -81,16 +75,16 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             _canRun = value;
         }
 
-        public void SetMoveInput(Vector2 moveInput, bool runKeyHold)
+        public void SetMoveInput(Vector3 moveInput, bool runKeyHold)
         {
-            if (moveInput != Vector2.zero)
+            if (moveInput != Vector3.zero)
             {
                 MoveInput = moveInput;
             }
 
             runKeyHold = _canRun && runKeyHold;
             _targetSpeed = runKeyHold ? _config.RunSpeed : _config.WalkSpeed;
-            _targetSpeed = moveInput == Vector2.zero ? 0 : _targetSpeed;
+            _targetSpeed = moveInput == Vector3.zero ? 0 : _targetSpeed;
             IsRun = runKeyHold;
         }
         

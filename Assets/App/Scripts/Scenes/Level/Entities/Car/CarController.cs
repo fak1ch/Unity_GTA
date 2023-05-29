@@ -1,5 +1,6 @@
 ﻿using System;
 using App.Scripts.Scenes.MainScene.Inputs;
+using App.Scripts.Scenes.MainScene.Map;
 using Cinemachine;
 using UnityEngine;
 
@@ -13,22 +14,33 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
         [SerializeField] private CinemachineVirtualCamera _carVirtualCamera;
         [SerializeField] private Transform _characterEnterCarPoint;
         [SerializeField] private DoorAnimation _doorAnimation;
+        [SerializeField] private HealthComponent _healthComponent;
+        [SerializeField] private ParticleEffect _particleEffect;
 
         private Character _driver;
+        private bool _isBroken;
+
+        #region Events
 
         private void OnEnable()
         {
             _carInputSystem.OnExitCarButtonClicked += ExitCharacterFromCar;
-            
+            _healthComponent.OnHealthEqualsZero += CarBrokenCallback;
         }
 
         private void OnDisable()
         {
             _carInputSystem.OnExitCarButtonClicked -= ExitCharacterFromCar;
+            _healthComponent.OnHealthEqualsZero -= CarBrokenCallback;
         }
+
+        #endregion
 
         public void EnterCharacterToCar(Character character)
         {
+            if(_isBroken) return;
+            if(character.IsTakeAim) return;
+            
             _driver = character;
             character.CharacterUI.SetActive(false);
 
@@ -76,6 +88,15 @@ namespace App.Scripts.Scenes.MainScene.Entities.Car
             _driver.transform.SetParent(_characterEnterCarPoint);
             _driver.transform.localPosition = Vector3.zero;
             _driver.transform.localRotation = Quaternion.identity;
+        }
+        
+        private void CarBrokenCallback()
+        {
+            if(_isBroken) return;
+            _isBroken = true;
+            
+            ExitCharacterFromCar();
+            _particleEffect.Play();
         }
     }
 }

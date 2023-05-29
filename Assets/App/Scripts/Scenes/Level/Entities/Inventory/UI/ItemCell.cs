@@ -1,8 +1,4 @@
-﻿using System;
-using App.Scripts.General.UI.ButtonSpace;
-using App.Scripts.Scenes.MainScene.Entities.Bullets;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17dfe25d90c8432194e6f479ca3908ff, type: 3}
+  m_Name: EffectsConfig
+  m_EditorClassIdentifier: 
+  EffectConfigs:
+  - Layer:
+      serializedVersion: 2
+      m_Bits: 1088
+    ParticleEffectPrefab: {fileID: 7576856597172543279, guid: 83e55d3418297934fab882559d009285, type: 3}
+  - Layer:
+      serializedVersion: 2
+      m_Bits: 4096
+    ParticleEffectPrefab: {fileID: 4095913043895618229, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
+  - Layer:
+      serializedVersion: 2
+      m_Bits: 2048
+    ParticleEffectPrefab: {fileID: 6794289178235806477, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}

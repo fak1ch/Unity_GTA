@@ -14,5 +14,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
         public string IsGroundKey = "IsGround";
         public string JumpTriggerKey = "JumpTrigger";
         public string ThrowGrenadeTriggerKey = "ThrowGrenadeTriggerKey";
+        public string FootAttackTriggerKey = "FootAttackTrigger";
+        public string HandAttackTriggerKey = "HandAttackTrigger";
     }
 }

@@ -12,12 +12,12 @@ TagManager:
   - Water
   - UI
   - Character
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - CharacterHitBox
+  - EnemyHitBox
+  - MiniMap
+  - Enemy
+  - Stone
+  - Metal
   - 
   - 
   - 

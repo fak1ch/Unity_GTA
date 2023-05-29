@@ -8,7 +8,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
     {
         public event Action OnHealthEqualsZero;
         public event Action OnHealthChanged;
-        public event Action<int> OnTakeDamage;
+        public event Action<int, Transform> OnTakeDamage;
 
         public float HealthPercent => MathUtils.GetPercent(0, MaxHealth, Health);
         public int MaxHealth => _maxHealth;
@@ -19,13 +19,13 @@ namespace App.Scripts.Scenes.MainScene.Entities
         
         private bool _isHealthEqualsZero = false;
 
-        public void TakeDamage(int value)
+        public void TakeDamage(int value, Transform attacker)
         {
             int health = Health;
             
             _health = Mathf.Clamp(Health - value,0, MaxHealth);
             
-            SendTakeDamageEvent(health - Health);
+            SendTakeDamageEvent(health - Health, attacker);
             SendHealthChangedEvent();
             CheckHealth();
         }
@@ -52,11 +52,11 @@ namespace App.Scripts.Scenes.MainScene.Entities
             OnHealthChanged?.Invoke();
         }
 
-        private void SendTakeDamageEvent(int deltaDamage)
+        private void SendTakeDamageEvent(int deltaDamage, Transform attacker)
         {
             if (_isHealthEqualsZero == true) return;
             
-            OnTakeDamage?.Invoke(deltaDamage);
+            OnTakeDamage?.Invoke(deltaDamage, attacker);
         }
         
         private void CheckHealth()

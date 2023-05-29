@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using App.Scripts.Scenes.MainScene.Entities.MovementSystem;
 using UnityEngine;
 
@@ -25,6 +23,8 @@ public class AnimationController : MonoBehaviour
         private int _isGroundHash;
         private int _jumpTriggerHash;
         private int _throwGrenadeTriggerHash;
+        private int _footAttackTriggerHash;
+        private int _handAttackTriggerHash;
 
         private void Start()
         {
@@ -37,6 +37,8 @@ public class AnimationController : MonoBehaviour
             _isGroundHash = Animator.StringToHash(_config.IsGroundKey);
             _jumpTriggerHash = Animator.StringToHash(_config.JumpTriggerKey);
             _throwGrenadeTriggerHash = Animator.StringToHash(_config.ThrowGrenadeTriggerKey);
+            _footAttackTriggerHash = Animator.StringToHash(_config.FootAttackTriggerKey);
+            _handAttackTriggerHash = Animator.StringToHash(_config.HandAttackTriggerKey);
         }
 
         private void Update()
@@ -70,6 +72,16 @@ public class AnimationController : MonoBehaviour
         public void PullThrowGrenadeTrigger()
         {
             PullAnimationTrigger(_throwGrenadeTriggerHash);
+        }
+        
+        public void PullFootAttackTrigger()
+        {
+            PullAnimationTrigger(_footAttackTriggerHash);
+        }
+        
+        public void PullHandAttackTrigger()
+        {
+            PullAnimationTrigger(_handAttackTriggerHash);
         }
         
         private void PullAnimationTrigger(int hash)
