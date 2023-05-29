@@ -30,15 +30,17 @@ namespace App.Scripts.Scenes.MainScene.Entities
         [SerializeField] private Collider _collider;
         [SerializeField] private GameObject _characterUI;
         [SerializeField] private EffectsPoolContainer _effectsPoolContainer;
+        [SerializeField] private RagdollActivator _ragdollActivator;
 
         private void Start()
         {
             _healthComponent.OnHealthEqualsZero += CharacterDieCallback;
+            _ragdollActivator.SetActive(false);
         }
 
         private void CharacterDieCallback()
         {
-            SceneLoader.Instance.LoadScene(SceneEnum.Level);
+            _ragdollActivator.SetActive(true);
         }
 
         public void SetInteractable(bool value)
