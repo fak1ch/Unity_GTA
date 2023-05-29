@@ -64,8 +64,8 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         public void Jump()
         {
             if(_groundChecker.IsGround == false) return;
-            
-            _rigidbody.AddForce(new Vector3(0,1,0) * _config.JumpForce);
+
+            _rigidbody.velocity += Vector3.up * _config.JumpForce;
             _animationController.PullJumpTrigger();
         }
 

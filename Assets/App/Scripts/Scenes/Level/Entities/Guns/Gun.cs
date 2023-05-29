@@ -13,10 +13,12 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         
         private CustomTimer _shootingTimer;
         private CustomTimer _reloadTimer;
+        
         protected ObjectPool<BaseBullet> _bulletPool;
+        protected Character _character;
+        protected bool _isTakeAim;
 
         private int _ammoCount;
-        protected bool _isTakeAim;
 
         private void Awake()
         {
@@ -33,8 +35,10 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _reloadTimer.Tick(Time.deltaTime);
         }
 
-        public void Shoot()
+        public void Shoot(Character character)
         {
+            _character = character;
+            
             if (_ammoCount <= 0 && _gunConfig.AmmoSize != 0)
             {
                 Reload();

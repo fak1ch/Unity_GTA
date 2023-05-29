@@ -8,6 +8,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
         public Gun SelectedGun => _selectedGun;
         
         [SerializeField] private Gun _selectedGun;
+        [SerializeField] private Character _character;
         [SerializeField] private Transform _gunPoint;
 
         public void SelectGun(Gun gun)
@@ -28,7 +29,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
         {
             if(_selectedGun == null) return;
             
-            _selectedGun.Shoot();
+            _selectedGun.Shoot(_character);
         }
     }
 }

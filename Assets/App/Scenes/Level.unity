@@ -34910,6 +34910,7 @@ GameObject:
   - component: {fileID: 1427578510}
   - component: {fileID: 1427578508}
   - component: {fileID: 1427578512}
+  - component: {fileID: 1427578514}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -35316,6 +35317,7 @@ MonoBehaviour:
   _carInputSystem: {fileID: 1500660712}
   _carVirtualCamera: {fileID: 117098747}
   _characterEnterCarPoint: {fileID: 1380113350}
+  _doorAnimation: {fileID: 1427578514}
 --- !u!4 &1427578505
 Transform:
   m_ObjectHideFlags: 0
@@ -35438,6 +35440,22 @@ Transform:
   m_Father: {fileID: 1427578521}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1427578514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427145379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae43a791b4f74873923974342cc7d4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _door: {fileID: 1427578497}
+  _newEulerAngles: {x: 0, y: 90, z: 0}
+  _duration: 1.25
+  _ease: 1
 --- !u!4 &1427578515
 Transform:
   m_ObjectHideFlags: 0
@@ -54013,9 +54031,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _config:
-    RunSpeed: 150
-    WalkSpeed: 50
-    JumpForce: 200
+    RunSpeed: 300
+    WalkSpeed: 100
+    JumpForce: 5
     SmoothMultiplier: 0.08
   _3ndPersonCamera: {fileID: 777918368}
   _animationController: {fileID: 5866666021747373630}
@@ -54029,7 +54047,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149319644920}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -54088,6 +54106,7 @@ MonoBehaviour:
     IsTakeAimKey: IsTakeAim
     IsGroundKey: IsGround
     JumpTriggerKey: JumpTrigger
+    ThrowGrenadeTriggerKey: ThrowGrenadeTrigger
   _groundChecker: {fileID: 5866666021747373644}
 --- !u!114 &5866666021747373632
 MonoBehaviour:
@@ -54188,6 +54207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedGun: {fileID: 0}
+  _character: {fileID: 5866666021747373635}
   _gunPoint: {fileID: 1680035998}
 --- !u!114 &5866666021747373638
 MonoBehaviour:

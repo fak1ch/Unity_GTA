@@ -1,4 +1,5 @@
-﻿using App.Scripts.General.LoadScene;
+﻿using System;
+using App.Scripts.General.LoadScene;
 using App.Scripts.Scenes.MainScene.Entities.MovementSystem;
 using App.Scripts.Scenes.MainScene.Entities.Player;
 using UnityEngine;
@@ -7,6 +8,9 @@ namespace App.Scripts.Scenes.MainScene.Entities
 {
     public class Character : MonoBehaviour
     {
+        public event Action OnStartOpenDoor;
+        public event Action OnStartCloseDoor;
+        
         public AnimationController AnimationController => _animationController;
         public GameObject CharacterUI => _characterUI;
         
@@ -37,6 +41,16 @@ namespace App.Scripts.Scenes.MainScene.Entities
             _followPointRotator.SetCanRotate(value);
             _rigidbodyActivator.SetActiveRigidbody(value);
             _collider.enabled = value;
+        }
+        
+        public void SendStartOpenDoorEvent()
+        {
+            OnStartOpenDoor?.Invoke();
+        }
+
+        public void SendStartCloseDoorEvent()
+        {
+            OnStartCloseDoor?.Invoke();
         }
     }
 }

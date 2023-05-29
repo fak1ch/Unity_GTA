@@ -30,6 +30,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
 
         protected override void SpawnBullet()
         {
+            _character.AnimationController.PullThrowGrenadeTrigger();
             _grenade.Initialize(_bulletPool, _startVelocity);
             ActiveGrenade();
         }

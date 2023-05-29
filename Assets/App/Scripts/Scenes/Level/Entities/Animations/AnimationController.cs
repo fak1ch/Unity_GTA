@@ -24,6 +24,7 @@ public class AnimationController : MonoBehaviour
         private int _isTakeAimHash;
         private int _isGroundHash;
         private int _jumpTriggerHash;
+        private int _throwGrenadeTriggerHash;
 
         private void Start()
         {
@@ -35,6 +36,7 @@ public class AnimationController : MonoBehaviour
             _isTakeAimHash = Animator.StringToHash(_config.IsTakeAimKey);
             _isGroundHash = Animator.StringToHash(_config.IsGroundKey);
             _jumpTriggerHash = Animator.StringToHash(_config.JumpTriggerKey);
+            _throwGrenadeTriggerHash = Animator.StringToHash(_config.ThrowGrenadeTriggerKey);
         }
 
         private void Update()
@@ -63,6 +65,11 @@ public class AnimationController : MonoBehaviour
         public void PullExitCarTrigger()
         {
             PullAnimationTrigger(_exitCarTriggerHash);
+        }
+
+        public void PullThrowGrenadeTrigger()
+        {
+            PullAnimationTrigger(_throwGrenadeTriggerHash);
         }
         
         private void PullAnimationTrigger(int hash)
