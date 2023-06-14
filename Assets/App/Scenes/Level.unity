@@ -32522,7 +32522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 543450653576850498}
-  _updateType: 0
+  _updateType: 1
 --- !u!1001 &1175580567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61565,7 +61565,7 @@ MonoBehaviour:
   _radius: 0.4
   _layerMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 8119
 --- !u!114 &5866666021747373645
 MonoBehaviour:
   m_ObjectHideFlags: 0

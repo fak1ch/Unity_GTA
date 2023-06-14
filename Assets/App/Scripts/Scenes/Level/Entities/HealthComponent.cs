@@ -21,8 +21,6 @@ namespace App.Scripts.Scenes.MainScene.Entities
 
         public void TakeDamage(int value, Transform attacker)
         {
-            Debug.Log(value);
-            
             int health = Health;
             
             _health = Mathf.Clamp(Health - value,0, MaxHealth);

@@ -13,8 +13,6 @@ namespace App.Scripts.Scenes.MainScene.Entities
 
         public void SetActive(bool value)
         {
-            Debug.Log(value);
-            
             _animator.enabled = !value;
             _mainCollider.enabled = !value;
             _mainRigidbody.isKinematic = value;
